@@ -1,0 +1,27 @@
+- import placeholder._
+
+!!! 5
+html
+  head
+    != antiCSRFMeta
+    != xitrumCSS
+
+    meta(charset="utf-8")
+    title xtrium-placeholder
+
+    link(type="text/css" rel="stylesheet" href={publicUrl("css/960/960.css")})
+    link(type="text/css" rel="stylesheet" href={publicUrl("css/960/reset.css")})
+    link(type="text/css" rel="stylesheet" href={publicUrl("css/960/text.css")})
+    link(type="text/css" rel="stylesheet" href={publicUrl("css/app.css")})
+
+  body
+
+    header
+    #content
+      h1 xtrium-placeholder
+      p
+        a(href='http://ngocdaothanh.github.io/xitrum/') xitrum
+        | implementation for
+        a(href='http://placehold.it/') placehold.it
+
+      h2 Usage
