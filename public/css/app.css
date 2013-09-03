@@ -1,8 +1,74 @@
-body {
-		margin: 40px;
+body:before {
+  content: "";
+  position: fixed;
+  top: -10px;
+  left: -10px;
+  width: 110%;
+  height: 10px;
+  -webkit-box-shadow: 0px 0px 10px rgba(0,0,0,0.8);
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.8);
+  z-index: 100;
 }
-
+body {
+  font-family: "Lucida Grande", Helvetica, Arial, sans-serif, "Meiryo UI";
+  letter-spacing: 0.02em;
+  color: #000;
+  background: url("../img/main-bg.jpg") repeat-x;
+  margin: 20px 40px 40px;
+}
 a {
   color: #3B5998;
   text-decoration: none;
+}
+li {
+  margin-left: 20px;
+}
+.footer {
+  bottom: 0px;
+}
+.center {
+  text-align: center;
+}
+.pull-right {
+  float: right;
+}
+.hide {
+  display: none;
+}
+.disp {
+  display: display;
+}
+.berak {
+  word-wrap: break-word;
+}
+.clear {
+  clear: both;
+}
+hr.soften {
+  margin: 5px 0 5px 0;
+  height: 1px;
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(0,0,0,0)), color-stop(0.33333333333333326, rgba(0,0,0,0.1)), color-stop(1, rgba(0,0,0,0)));
+  background-image: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 33.33333333333333%, rgba(0,0,0,0) 100%);
+  background-image: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 33.33333333333333%, rgba(0,0,0,0) 100%);
+  background-image: -o-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 33.33333333333333%, rgba(0,0,0,0) 100%);
+  background-image: -ms-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 33.33333333333333%, rgba(0,0,0,0) 100%);
+  background-image: linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 33.33333333333333%, rgba(0,0,0,0) 100%);
+  border: 0;
+}
+.title{
+	font-size:300%;
+}
+.subtitle{
+	margin-top:-30px;
+	margin-left:1px;
+}
+.footer {
+  border-top: 1px solid rgba(0,0,0,0.1);
+  -webkit-box-shadow: #fff 0 1px 0px inset;
+  box-shadow: #fff 0 1px 0px inset;
+  padding: 10px 0;
+  margin-top: 10px;
+}
+.footer p {
+  margin-bottom: 0;
 }

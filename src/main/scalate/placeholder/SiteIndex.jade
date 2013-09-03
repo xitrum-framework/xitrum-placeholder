@@ -17,11 +17,61 @@ html
   body
 
     header
-    #content
-      h1 xtrium-placeholder
-      p
+      h2.title xtrium-placeholder
+      p.subtitle
         a(href='http://ngocdaothanh.github.io/xitrum/') xitrum
         | implementation for
         a(href='http://placehold.it/') placehold.it
 
+    hr
+
+    #content
       h2 Usage
+      ul
+        li
+          code /:size
+          p
+            span return the square image of the specified size.
+            br
+            span e.g.:
+            a(href="/100" trget="_blank") /100
+
+        li
+          code /:width/:height
+          p
+            span return the rectangle image of the specified width * height.
+            br
+            span e.g.:
+            a(href="/100/200" trget="_blank") /100/200
+        li
+          code /circle/:radius
+          p
+            span return the image circle of the specified radius.
+            br
+            span e.g.:
+            a(href="/circle/100" trget="_blank") /circle/100
+        li
+          code Option query
+          p
+            span customize image with query parameter.
+            br
+            span e.g.:
+            a(href="/100/100?color=red&text=hello&textcolor=white" trget="_blank") /100/100?color=red&text=hello&textcolor=white
+          span Available options
+          ul
+            li
+              span color (#rrggbb or ColorName) : see also =>
+              a(href='http://www.docjar.com/docs/api/java/awt/Color.html' trget="_blank") Color
+            li text (String)
+            li textcolor (#rrggbb or ColorName)
+
+
+    footer.footer
+      p
+        span &copy; 2013-
+        a(href="http://about.me/takeharu.oshida" trget="_blank") Takeharu.Oshida
+      p
+        span Source code can be found on
+        a(href="https://github.com/georgeOsdDev" target="_blank") github
+        span , licenced under
+        a(href="http://opensource.org/licenses/mit-license.php" target="_blank") MIT

@@ -3,7 +3,7 @@ package placeholder
 import org.jboss.netty.handler.codec.http.HttpHeaders
 import xitrum.ActionActor
 import xitrum.Server
-import xitrum.annotation.GET
+import xitrum.annotation.{GET, Error404, Error500}
 import xitrum.validator._
 import xitrum.exception.InvalidInput
 import placeholder.model._
@@ -14,6 +14,20 @@ object Boot {
   }
 }
 
+@Error404
+class NotFoundError extends ActionActor {
+  def execute() {
+    respondFile("/public/400.html")
+  }
+}
+
+@Error500
+class ServerError extends ActionActor {
+  def execute() {
+    respondFile("/public/500.html")
+  }
+}
+
 @GET("/")
 class SiteIndex extends ActionActor{
   def execute() =
@@ -21,9 +35,13 @@ class SiteIndex extends ActionActor{
 }
 
 @GET("/:width")
-class WidthActor extends ActionActor {
+class SquareActor extends ActionActor {
   def execute() {
-    val width = param[Int]("width")
+    val width     = param[Int]("width")
+    val color     = paramo("color")
+    val text      = paramo("text")
+    val textcolor = paramo("textcolor")
+
     val bytes = Canvas.render(width, width)
     response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
     response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
@@ -32,10 +50,14 @@ class WidthActor extends ActionActor {
 }
 
 @GET("/:width/:height")
-class HeightActor extends ActionActor {
+class RectangleActor extends ActionActor {
   def execute() {
-    val width = param[Int]("width")
-    val height = param[Int]("height")
+    val width     = param[Int]("width")
+    val height    = param[Int]("height")
+    val color     = paramo("color")
+    val text      = paramo("text")
+    val textcolor = paramo("textcolor")
+
     val bytes = Canvas.render(width, height)
     response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
     response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
@@ -43,18 +65,15 @@ class HeightActor extends ActionActor {
   }
 }
 
-@GET("/:width/:height/:option")
-class OptionActor extends ActionActor {
+@GET("/circle/:radius")
+class CircleActor extends ActionActor {
   def execute() {
-    val width = param[Int]("width")
-    val height = param[Int]("height")
-    val option = param("option")
+    val radius = param[Int]("radius")
+    val color     = paramo("color")
+    val text      = paramo("text")
+    val textcolor = paramo("textcolor")
 
-    // TODO : handle option
-    // option : color=white&text=hogehoge&textcolor=red&key=value
-
-
-    val bytes = Canvas.render(width, height)
+    val bytes = Canvas.render(radius, radius)
     response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
     response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
     respondBinary(bytes);
