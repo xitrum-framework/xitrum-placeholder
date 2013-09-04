@@ -17,14 +17,14 @@ object Boot {
 @Error404
 class NotFoundError extends ActionActor {
   def execute() {
-    respondFile("/public/400.html")
+    respondFile("public/400.html")
   }
 }
 
 @Error500
 class ServerError extends ActionActor {
   def execute() {
-    respondFile("/public/500.html")
+    respondFile("public/500.html")
   }
 }
 
@@ -42,40 +42,40 @@ class SquareActor extends ActionActor {
     val text      = paramo("text")
     val textcolor = paramo("textcolor")
 
-    val bytes = Canvas.render(width, width)
+    val bytes = Canvas.renderSquare(width)
     response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
     response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
     respondBinary(bytes);
   }
 }
 
-@GET("/:width/:height")
-class RectangleActor extends ActionActor {
-  def execute() {
-    val width     = param[Int]("width")
-    val height    = param[Int]("height")
-    val color     = paramo("color")
-    val text      = paramo("text")
-    val textcolor = paramo("textcolor")
-
-    val bytes = Canvas.render(width, height)
-    response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
-    response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
-    respondBinary(bytes);
-  }
-}
-
-@GET("/circle/:radius")
-class CircleActor extends ActionActor {
-  def execute() {
-    val radius = param[Int]("radius")
-    val color     = paramo("color")
-    val text      = paramo("text")
-    val textcolor = paramo("textcolor")
-
-    val bytes = Canvas.render(radius, radius)
-    response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
-    response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
-    respondBinary(bytes);
-  }
-}
+//@GET("/:width/:height")
+//class RectangleActor extends ActionActor {
+//  def execute() {
+//    val width     = param[Int]("width")
+//    val height    = param[Int]("height")
+//    val color     = paramo("color")
+//    val text      = paramo("text")
+//    val textcolor = paramo("textcolor")
+//
+//    val bytes = Canvas.renderRectangle(width, height)
+//    response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
+//    response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
+//    respondBinary(bytes);
+//  }
+//}
+//
+//@GET("/circle/:radius")
+//class CircleActor extends ActionActor {
+//  def execute() {
+//    val radius = param[Int]("radius")
+//    val color     = paramo("color")
+//    val text      = paramo("text")
+//    val textcolor = paramo("textcolor")
+//
+//    val bytes = Canvas.renderCircle(radius)
+//    response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
+//    response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
+//    respondBinary(bytes);
+//  }
+//}
