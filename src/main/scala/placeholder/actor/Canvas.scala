@@ -3,57 +3,57 @@ package placeholder.actor
 import java.awt.{Font,RenderingHints}
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
-import org.jboss.netty.handler.codec.http.HttpHeaders
 import javax.imageio.ImageIO
 import xitrum.ActionActor
-import xitrum.Logger
-import placeholder.model.Square
+import placeholder.model.{Square,Rectangle,Circle}
 
 /*
  * CanvasActor
  */
-
-class CanvasActor extends ActionActor with Logger {
+class CanvasActor extends ActionActor {
   def execute() {}
-
-  def render(canvas: BufferedImage) = {
-    val baos = new ByteArrayOutputStream();
-    val raster = canvas.getRaster;
-    ImageIO.write(canvas, "png", baos);
-    baos.flush();
-    val bytes = baos.toByteArray;
-    baos.close();
-    response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
-    response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
-    respondBinary(bytes);
-  }
 
   override def receive = {
     case square: Square =>
-    //      logger.info("received test")
-
-    //    case rectangle: Rectangle =>
-    //      logger.info("received test")
-
-    //    case circle: Circle =>
-    //      logger.info("received test")
-
+      val bytes = renderSquare(square)
+      sender ! bytes
+    case rectangle: Rectangle =>
+      logger.info("rectangle")
+      // val bytes = renderRectangle(square)
+      // sender ! bytes
+    case circle: Circle =>
+      logger.info("circle")
+      // val bytes = renderCircle(square)
+      // sender ! bytes
     case _ =>
-      logger.error("unexpected message")
+      logger.error("CanvasActor:Unexpected message")
   }
-  def renderSquare(square: Square) = {
+
+  /**
+   * renderSquare
+   * @see http://otfried-cheong.appspot.com/scala/drawing.html
+   * @see http://stackoverflow.com/questions/2658554/using-graphics2d-to-overlay-text-on-a-bufferedimage-and-return-a-bufferedimage
+   */
+  def renderSquare(square: Square): Array[Byte] = {
     val canvas = new BufferedImage(square.getWidth, square.getWidth, BufferedImage.TYPE_INT_RGB)
     val g = canvas.createGraphics()
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
     g.setColor(square.getColor)
     g.fillRect(0, 0, canvas.getWidth, canvas.getWidth)
     g.setFont(new Font("Serif", Font.BOLD, 20));
-    val s = square.getText
+    var s = square.getText
+    s = if ("placeholder" == s) canvas.getWidth.toString + "×" + canvas.getWidth.toString else s
     val fm = g.getFontMetrics
     val x = square.getWidth - fm.stringWidth(s) - 5;
     val y = fm.getHeight();
     g.drawString(s, x, y);
     g.dispose()
-    render(canvas);
+    val baos = new ByteArrayOutputStream();
+    val raster = canvas.getRaster;
+    ImageIO.write(canvas, "png", baos);
+    baos.flush();
+    val bytes = baos.toByteArray;
+    baos.close();
+    bytes
   }
 }

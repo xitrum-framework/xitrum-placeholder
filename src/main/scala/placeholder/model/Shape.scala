@@ -4,7 +4,7 @@ import java.awt.Color
 
 import com.martiansoftware.jsap.stringparsers.ColorStringParser
 
-class Shape(color: String, text: String, textcolor: String) {
+class Shape(color: String = "GRAY", text: String = "placeholder", textcolor: String = "WHITE") {
   val parser = ColorStringParser.getParser()
   def getColor: Color =
     parser.parse(color).asInstanceOf[Color]
