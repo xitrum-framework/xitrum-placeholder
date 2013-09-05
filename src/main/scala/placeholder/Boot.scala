@@ -1,5 +1,7 @@
 package placeholder
 
+import util.Properties
+
 import org.jboss.netty.handler.codec.http.HttpHeaders
 import akka.actor.{Actor, ActorSystem, Props}
 
@@ -10,6 +12,8 @@ import placeholder.model._
 
 object Boot {
   def main(args: Array[String]) {
+    val port = Properties.envOrElse("PORT", "8000")
+    System.setProperty("xitrum.port.http", port)
     Server.start()
   }
 }
