@@ -13,7 +13,6 @@ body {
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif, "Meiryo UI";
   letter-spacing: 0.02em;
   color: #000;
-  background: url("../img/main-bg.jpg") repeat-x;
   margin: 20px 40px 40px;
 }
 a {

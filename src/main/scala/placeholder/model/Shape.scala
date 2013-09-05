@@ -6,12 +6,22 @@ import com.martiansoftware.jsap.stringparsers.ColorStringParser
 
 class Shape(color: String = "GRAY", text: String = "placeholder", textcolor: String = "WHITE") {
   val parser = ColorStringParser.getParser()
+  val a = "[0-9a-fA-F]{3}".r
+  val b = "[0-9a-fA-F]{6}".r
   def getColor: Color =
-    parser.parse(color).asInstanceOf[Color]
+    color match {
+      case a() => parser.parse("#"+color).asInstanceOf[Color]
+      case b() => parser.parse("#"+color).asInstanceOf[Color]
+      case x => parser.parse(color).asInstanceOf[Color]
+    }
   def getText: String =
     text
   def getTextColor: Color =
-    parser.parse(textcolor).asInstanceOf[Color]
+    textcolor match {
+      case a() => parser.parse("#"+textcolor).asInstanceOf[Color]
+      case b() => parser.parse("#"+textcolor).asInstanceOf[Color]
+      case x => parser.parse(textcolor).asInstanceOf[Color]
+    }
 }
 
 class Square(color: String, text: String, textcolor: String, width: Int)

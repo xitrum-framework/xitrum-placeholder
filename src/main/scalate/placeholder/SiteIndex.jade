@@ -27,6 +27,10 @@ html
 
     #content
       h2 Usage
+      p Use as placeholder inside img tag like below
+      pre
+        \&lt; img src='http://localhost:8000/100' &gt;
+      h2 API
       ul
         li
           code /:size
@@ -56,14 +60,14 @@ html
             span customize image with query parameter.
             br
             span e.g.:
-            a(href="/100/100?color=red&text=hello&textcolor=white" trget="_blank") /100/100?color=red&text=hello&textcolor=white
+            a(href="/100/100?color=red&text=hello&textcolor=white" trget="_blank") /100/100?color=red&text=hello&textcolor=ffffff
           span Available options
           ul
             li
-              span color (#rrggbb or ColorName) : see also =>
+              span color (rrggbb or ColorName) : see also =>
               a(href='http://www.docjar.com/docs/api/java/awt/Color.html' trget="_blank") Color
             li text (String)
-            li textcolor (#rrggbb or ColorName)
+            li textcolor (rrggbb or ColorName)
 
 
     footer.footer
