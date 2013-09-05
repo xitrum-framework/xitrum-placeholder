@@ -73,7 +73,7 @@ class CanvasActor extends Actor with Logger {
     var fontSize = if (rectangle.getHeight < 100) 10 else 20
     g.setFont(new Font("Verdana", Font.BOLD, fontSize))
     var s = rectangle.getText
-    s = if ("placeholder" == s) rectangle.getWidth.toString + " X " + rectangle.getWidth.toString else s
+    s = if ("placeholder" == s) rectangle.getWidth.toString + " X " + rectangle.getHeight.toString else s
     val fm = g.getFontMetrics
     val x = rectangle.getWidth/2 - fm.stringWidth(s)/2
     val y = rectangle.getHeight/2 + fm.getHeight()/2
