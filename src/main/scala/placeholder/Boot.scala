@@ -56,19 +56,22 @@ class ServerError extends ActionActor {
 
 @GET("/")
 class SiteIndex extends ActionActor{
-  def execute() =
+  def execute(){
+    logger.warn("request: " + request)
     respondView()
+  }
 }
 
 @GET("/:width")
 class SquareActor extends ShapeActor {
   override def execute() {
-    request.getHeaderNames().toList.foreach { key =>
+    logger.warn("request: " + request)
+    /*request.getHeaderNames().toList.foreach { key =>
       logger.warn("request=> %s : %s".format(key,request.getHeader(key)))
     }
     textParams.keySet.foreach { key =>
       logger.warn("textparams=> %s : %s".format(key,textParams.get(key)))
-    }
+    }*/
     val width     = param[Int]("width")
     val color     = paramo("color").getOrElse("GRAY")
     val text      = paramo("text").getOrElse("placeholder")
