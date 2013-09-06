@@ -5,6 +5,8 @@ import util.Properties
 import org.jboss.netty.handler.codec.http.HttpHeaders
 import akka.actor.{Actor, ActorSystem, Props}
 
+import scala.collection.JavaConversions._
+
 import xitrum.{ActionActor, Server}
 import xitrum.annotation.{GET, Error404, Error500}
 
@@ -61,6 +63,12 @@ class SiteIndex extends ActionActor{
 @GET("/:width")
 class SquareActor extends ShapeActor {
   override def execute() {
+    request.getHeaderNames().toList.foreach { key =>
+      logger.warn("request=> %s : %s".format(key,request.getHeader(key)))
+    }
+    textParams.keySet.foreach { key =>
+      logger.warn("textparams=> %s : %s".format(key,textParams.get(key)))
+    }
     val width     = param[Int]("width")
     val color     = paramo("color").getOrElse("GRAY")
     val text      = paramo("text").getOrElse("placeholder")
