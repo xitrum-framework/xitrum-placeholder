@@ -57,7 +57,7 @@ class ServerError extends ActionActor {
 @GET("/")
 class SiteIndex extends ActionActor{
   def execute(){
-    logger.warn("request: " + request)
+    logger.debug("request: " + request)
     respondView()
   }
 }
@@ -65,7 +65,7 @@ class SiteIndex extends ActionActor{
 @GET("/:width")
 class SquareActor extends ShapeActor {
   override def execute() {
-    logger.warn("request: " + request)
+    logger.debug("request: " + request)
     /*request.getHeaderNames().toList.foreach { key =>
       logger.warn("request=> %s : %s".format(key,request.getHeader(key)))
     }
