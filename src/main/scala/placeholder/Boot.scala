@@ -7,8 +7,8 @@ import akka.actor.{Actor, ActorSystem, Props}
 
 import scala.collection.JavaConversions._
 
-import xitrum.{ActionActor, Server}
-import xitrum.annotation.{GET, Error404, Error500}
+import xitrum.{Action, ActionActor, Server}
+import xitrum.annotation.{First, GET, Error404, Error500}
 
 import placeholder.model._
 
@@ -103,5 +103,82 @@ class CircleActor extends ShapeActor {
     val textcolor = paramo("textcolor").getOrElse("WHITE")
     val shape = new Circle(color, text, textcolor, radius)
     send(shape)
+  }
+}
+
+// ######################################################
+// Future version
+// ######################################################
+import scala.concurrent.{Future, ExecutionContext}
+trait ExContext {
+  import java.util.concurrent.Executors
+  import scala.collection.parallel
+  implicit val ec = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(parallel.availableProcessors*2))
+}
+
+@First
+@GET("/future/:width")
+class ShapeFuture extends ActionActor with ExContext {
+  def execute() {
+    val width     = param[Int]("width")
+    val color     = paramo("color").getOrElse("GRAY")
+    val text      = paramo("text").getOrElse("placeholder")
+    val textcolor = paramo("textcolor").getOrElse("WHITE")
+    val shape = new Square(color, text, textcolor, width)
+
+    val render = Future { Renderer.renderSquare(shape) }
+    render.onSuccess {
+      case result: Array[Byte] =>
+        self ! result
+    }
+
+    context.become {
+      case result: Array[Byte] =>
+        respondBinary(result)
+    }
+  }
+}
+@GET("/future/:width/:height")
+class RectangleFuture extends ActionActor with ExContext {
+  override def execute() {
+    val width     = param[Int]("width")
+    val height    = param[Int]("height")
+    val color     = paramo("color").getOrElse("GRAY")
+    val text      = paramo("text").getOrElse("placeholder")
+    val textcolor = paramo("textcolor").getOrElse("WHITE")
+    val shape = new Rectangle(color, text, textcolor, width, height)
+
+    val render = Future { Renderer.renderRectangle(shape) }
+    render.onSuccess {
+      case result: Array[Byte] =>
+        self ! result
+    }
+
+    context.become {
+      case result: Array[Byte] =>
+        respondBinary(result)
+    }
+  }
+}
+
+@GET("/future/circle/:radius")
+class CircleFuture extends ActionActor with ExContext {
+  override def execute() {
+    val radius = param[Int]("radius")
+    val color     = paramo("color").getOrElse("GRAY")
+    val text      = paramo("text").getOrElse("placeholder")
+    val textcolor = paramo("textcolor").getOrElse("WHITE")
+    val shape = new Circle(color, text, textcolor, radius)
+
+    val render = Future { Renderer.renderCircle(shape) }
+    render.onSuccess {
+      case result: Array[Byte] =>
+        self ! result
+    }
+
+    context.become {
+      case result: Array[Byte] =>
+        respondBinary(result)
+    }
   }
 }

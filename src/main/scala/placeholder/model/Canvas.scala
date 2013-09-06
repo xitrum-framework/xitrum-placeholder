@@ -7,34 +7,7 @@ import javax.imageio.ImageIO
 import akka.actor.{Actor, ActorRef, Props}
 import xitrum.{Config, Logger}
 
-
-object Canvas {
-  // val system = ActorSystem("CanvasSystem")
-  val actorRef = Config.actorSystem.actorOf(Props[CanvasActor], "canvas")
-
-  def getActorRef : ActorRef = {
-    return actorRef
-  }
-}
-
-class CanvasActor extends Actor with Logger {
-  def receive = {
-    case rectangle: Rectangle =>
-      val bytes = renderRectangle(rectangle)
-      sender ! bytes
-
-    case square: Square =>
-      val bytes = renderSquare(square)
-      sender ! bytes
-
-    case circle: Circle =>
-      val bytes = renderCircle(circle)
-      sender ! bytes
-
-    case _ =>
-      logger.error("CanvasActor:Unexpected message")
-  }
-
+object Renderer {
   def renderSquare(square: Square): Array[Byte] = {
     // See http://otfried-cheong.appspot.com/scala/drawing.html
     val canvas = new BufferedImage(square.getWidth, square.getWidth, BufferedImage.TYPE_INT_RGB)
@@ -46,7 +19,7 @@ class CanvasActor extends Actor with Logger {
     var fontSize = if (square.getWidth < 100) 10 else 20
     g.setFont(new Font("Verdana", Font.BOLD, fontSize))
     var s = square.getText
-    s = if ("placeholder" == s) square.getWidth.toString + "X" + square.getWidth.toString else s
+    s = if ("placeholder" == s) square.getWidth.toString + "x" + square.getWidth.toString else s
     val fm = g.getFontMetrics
     val x = square.getWidth/2 - fm.stringWidth(s)/2
     val y = square.getWidth/2 + fm.getHeight()/2
@@ -73,7 +46,7 @@ class CanvasActor extends Actor with Logger {
     var fontSize = if (rectangle.getHeight < 100) 10 else 20
     g.setFont(new Font("Verdana", Font.BOLD, fontSize))
     var s = rectangle.getText
-    s = if ("placeholder" == s) rectangle.getWidth.toString + "X" + rectangle.getHeight.toString else s
+    s = if ("placeholder" == s) rectangle.getWidth.toString + "x" + rectangle.getHeight.toString else s
     val fm = g.getFontMetrics
     val x = rectangle.getWidth/2 - fm.stringWidth(s)/2
     val y = rectangle.getHeight/2 + fm.getHeight()/2
@@ -128,5 +101,45 @@ class CanvasActor extends Actor with Logger {
     val bytes = baos.toByteArray
     baos.close()
     bytes
+  }
+}
+
+object Canvas {
+
+  // TODO use config file
+  val actorRef1 = Config.actorSystem.actorOf(Props[CanvasActor], "canvas1")
+  val actorRef2 = Config.actorSystem.actorOf(Props[CanvasActor], "canvas2")
+  val actorRef3 = Config.actorSystem.actorOf(Props[CanvasActor], "canvas3")
+  val actorRef4 = Config.actorSystem.actorOf(Props[CanvasActor], "canvas4")
+
+  // RoundRobin
+  // http://doc.akka.io/docs/akka/2.2.1/scala/routing.html
+  var index = 1;
+  def getActorRef : ActorRef = {
+    index match {
+      case 1 => index = 2;return actorRef1
+      case 2 => index = 3;return actorRef2
+      case 3 => index = 4;return actorRef3
+      case 4 => index = 1;return actorRef4
+    }
+  }
+}
+
+class CanvasActor extends Actor with Logger {
+  def receive = {
+    case rectangle: Rectangle =>
+      val bytes = Renderer.renderRectangle(rectangle)
+      sender ! bytes
+
+    case square: Square =>
+      val bytes = Renderer.renderSquare(square)
+      sender ! bytes
+
+    case circle: Circle =>
+      val bytes = Renderer.renderCircle(circle)
+      sender ! bytes
+
+    case _ =>
+      logger.error("CanvasActor:Unexpected message")
   }
 }
