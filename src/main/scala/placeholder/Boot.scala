@@ -178,6 +178,8 @@ class CircleFuture extends ActionActor with ExContext {
 
     context.become {
       case result: Array[Byte] =>
+        response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
+        response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, result.length)
         respondBinary(result)
     }
   }
