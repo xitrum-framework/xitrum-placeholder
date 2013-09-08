@@ -19,6 +19,8 @@ scalacOptions ++= Seq(
 // and it takes several hours to sync from Sonatype to Maven Central
 resolvers += "SonatypeReleases" at "http://oss.sonatype.org/content/repositories/releases/"
 
+"com.newrelic.agent.java" % "newrelic-agent" % "2.21.3"
+
 libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
 
 libraryDependencies += "tv.cntt" %% "xitrum" % "2.7"
