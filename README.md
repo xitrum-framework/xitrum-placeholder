@@ -9,7 +9,7 @@
 
 Use as placeholder inside img tag like below
 
-	<img src='http://xitrum-placeholder.herokuapp.com/100'>
+	<img src='http://xitrum-placeholder.herokuapp.com/150/100?color=black&text=xitrum&textcolor=00FF00'>
 
 
 ![sample](http://xitrum-placeholder.herokuapp.com/150/100?color=black&text=xitrum&textcolor=00FF00)
@@ -23,13 +23,15 @@ return the square image of the specified size.
 
 e.g. : [http://xitrum-placeholder.herokuapp.com/100]("/100")
 
+![square](http://xitrum-placeholder.herokuapp.com/100)
 
 	/:width/:height
 
 return the rectangle image of the specified width * height.
 
-e.g. : [http://xitrum-placeholder.herokuapp.com/100/200]("/100/200")
+e.g. : [http://xitrum-placeholder.herokuapp.com/200/100]("/200/100")
 
+![rectangle](http://xitrum-placeholder.herokuapp.com/200/100)
 
 	/circle/:radius
 
@@ -37,12 +39,16 @@ return the circle image of the specified radius.
 
 e.g. : [http://xitrum-placeholder.herokuapp.com/circle/100]("/circle/100")
 
+![circle](http://xitrum-placeholder.herokuapp.com/circle/100)
+
 
 ##Option query
 
 customize image with query parameter.
 
-e.g. : [http://xitrum-placeholder.herokuapp.com//100/100?color=red&text=hello&textcolor=white]("/100?color=red&text=hello&textcolor=white")
+e.g. : [http://xitrum-placeholder.herokuapp.com/100/100?color=red&text=hello&textcolor=white]("/100?color=red&text=hello&textcolor=white")
+
+![circle](http://xitrum-placeholder.herokuapp.com/100/100?color=red&text=hello&textcolor=white)
 
 ### Available options</span>
 
