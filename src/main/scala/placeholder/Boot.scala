@@ -1,6 +1,6 @@
 package placeholder
 
-import util.Properties
+import scala.util.Properties
 
 import org.jboss.netty.handler.codec.http.HttpHeaders
 import akka.actor.{Actor, ActorSystem, Props}
