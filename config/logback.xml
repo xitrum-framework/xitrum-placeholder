@@ -26,6 +26,6 @@
     <!-- Should be commented out in production mode for speed -->
     <appender-ref ref="CONSOLE"/>
 
-    <appender-ref ref="FILE"/>
+    <!-- <appender-ref ref="FILE"/> -->
   </root>
 </configuration>

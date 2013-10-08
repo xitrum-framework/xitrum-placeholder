@@ -57,9 +57,19 @@ e.g. : [http://xitrum-placeholder.herokuapp.com/100/100?color=red&text=hello&tex
  * textcolor (rrggbb or ColorName)
 
 
-Install local
+##Install local
+
+You can run it simply like below
 
 	git clone https://github.com/georgeOsdDev/xitrum-placeholder.git
     cd xitrum-placeholder.git && sbt/sbt run
 
 Running at http://localhost:8000/
+
+
+Or Simulate Heroku boot flow
+
+	sbt/sbt clean compile stage
+	foreman start
+
+Running at http://localhost:5000/
