@@ -1,1 +1,1 @@
-web: target/xitrum/bin/runner.sh placeholder.Boot $PORT
+web: target/xitrum/bin/runner placeholder.Boot $PORT
