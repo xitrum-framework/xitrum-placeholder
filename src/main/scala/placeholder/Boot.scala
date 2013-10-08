@@ -8,7 +8,7 @@ import akka.actor.{Actor, ActorSystem, Props}
 import scala.collection.JavaConversions._
 
 import xitrum.{Action, ActionActor, Server}
-import xitrum.annotation.{First, GET, Error404, Error500}
+import xitrum.annotation.{First, GET, Swagger}
 
 import placeholder.model._
 
@@ -20,9 +20,8 @@ object Boot {
   }
 }
 
-class ShapeActor extends ActionActor {
-  def execute(){}
-  def send(shape: Shape){
+trait ShapeActor extends ActionActor {
+  def send(shape: Shape) {
     val actorRef = Canvas.getActorRef
     actorRef ! shape
     context.become {
@@ -33,6 +32,7 @@ class ShapeActor extends ActionActor {
         logger.error("SquareActor:Unexpected message: " + x)
     }
   }
+
   def render(bytes: Array[Byte]) {
     response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
     response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
@@ -40,76 +40,77 @@ class ShapeActor extends ActionActor {
   }
 }
 
-@Error404
-class NotFoundError extends ActionActor {
+@GET("")
+class SiteIndex extends ActionActor {
   def execute() {
-    respondFile("public/400.html")
-  }
-}
-
-@Error500
-class ServerError extends ActionActor {
-  def execute() {
-    respondFile("public/500.html")
-  }
-}
-
-@GET("/")
-class SiteIndex extends ActionActor{
-  def execute(){
-    logger.debug("request: " + request)
     respondView()
   }
 }
 
-@GET("/:width")
+@GET(":width")
+@Swagger(
+  "Generate square image",
+  Swagger.IntPath("width"),
+  Swagger.OptionalStringQuery("color",     "Default: GRAY"),
+  Swagger.OptionalStringQuery("text",      "Default: placeholder"),
+  Swagger.OptionalStringQuery("textcolor", "Default: WHITE")
+)
 class SquareActor extends ShapeActor {
-  override def execute() {
-    logger.debug("request: " + request)
-    /*request.getHeaderNames().toList.foreach { key =>
-      logger.warn("request=> %s : %s".format(key,request.getHeader(key)))
-    }
-    textParams.keySet.foreach { key =>
-      logger.warn("textparams=> %s : %s".format(key,textParams.get(key)))
-    }*/
+  def execute() {
     val width     = param[Int]("width")
     val color     = paramo("color").getOrElse("GRAY")
     val text      = paramo("text").getOrElse("placeholder")
     val textcolor = paramo("textcolor").getOrElse("WHITE")
-    val shape = new Square(color, text, textcolor, width)
+    val shape     = new Square(color, text, textcolor, width)
     send(shape)
   }
 }
 
-@GET("/:width/:height")
+@GET(":width/:height")
+@Swagger(
+  "Generate rectangle image",
+  Swagger.IntPath("width"),
+  Swagger.IntPath("height"),
+  Swagger.OptionalStringQuery("color",     "Default: GRAY"),
+  Swagger.OptionalStringQuery("text",      "Default: placeholder"),
+  Swagger.OptionalStringQuery("textcolor", "Default: WHITE")
+)
 class RectangleActor extends ShapeActor {
-  override def execute() {
+  def execute() {
     val width     = param[Int]("width")
     val height    = param[Int]("height")
     val color     = paramo("color").getOrElse("GRAY")
     val text      = paramo("text").getOrElse("placeholder")
     val textcolor = paramo("textcolor").getOrElse("WHITE")
-    val shape = new Rectangle(color, text, textcolor, width, height)
+    val shape     = new Rectangle(color, text, textcolor, width, height)
     send(shape)
   }
 }
 
-@GET("/circle/:radius")
+@GET("circle/:radius")
+@Swagger(
+  "Generate circle image",
+  Swagger.IntPath("radius"),
+  Swagger.OptionalStringQuery("color",     "Default: GRAY"),
+  Swagger.OptionalStringQuery("text",      "Default: placeholder"),
+  Swagger.OptionalStringQuery("textcolor", "Default: WHITE")
+)
 class CircleActor extends ShapeActor {
-  override def execute() {
-    val radius = param[Int]("radius")
+  def execute() {
+    val radius    = param[Int]("radius")
     val color     = paramo("color").getOrElse("GRAY")
     val text      = paramo("text").getOrElse("placeholder")
     val textcolor = paramo("textcolor").getOrElse("WHITE")
-    val shape = new Circle(color, text, textcolor, radius)
+    val shape     = new Circle(color, text, textcolor, radius)
     send(shape)
   }
 }
 
-// ######################################################
+//-----------------------------------------------------------------------------
 // Future version
-// ######################################################
+
 import scala.concurrent.{Future, ExecutionContext}
+
 trait ExContext {
   import java.util.concurrent.Executors
   import scala.collection.parallel
@@ -117,14 +118,14 @@ trait ExContext {
 }
 
 @First
-@GET("/future/:width")
+@GET("future/:width")
 class ShapeFuture extends ActionActor with ExContext {
   def execute() {
     val width     = param[Int]("width")
     val color     = paramo("color").getOrElse("GRAY")
     val text      = paramo("text").getOrElse("placeholder")
     val textcolor = paramo("textcolor").getOrElse("WHITE")
-    val shape = new Square(color, text, textcolor, width)
+    val shape     = new Square(color, text, textcolor, width)
 
     val render = Future { Renderer.renderSquare(shape) }
     render.onSuccess {
@@ -140,7 +141,7 @@ class ShapeFuture extends ActionActor with ExContext {
     }
   }
 }
-@GET("/future/:width/:height")
+@GET("future/:width/:height")
 class RectangleFuture extends ActionActor with ExContext {
   override def execute() {
     val width     = param[Int]("width")
@@ -148,7 +149,7 @@ class RectangleFuture extends ActionActor with ExContext {
     val color     = paramo("color").getOrElse("GRAY")
     val text      = paramo("text").getOrElse("placeholder")
     val textcolor = paramo("textcolor").getOrElse("WHITE")
-    val shape = new Rectangle(color, text, textcolor, width, height)
+    val shape     = new Rectangle(color, text, textcolor, width, height)
 
     val render = Future { Renderer.renderRectangle(shape) }
     render.onSuccess {
@@ -165,14 +166,14 @@ class RectangleFuture extends ActionActor with ExContext {
   }
 }
 
-@GET("/future/circle/:radius")
+@GET("future/circle/:radius")
 class CircleFuture extends ActionActor with ExContext {
   override def execute() {
-    val radius = param[Int]("radius")
+    val radius    = param[Int]("radius")
     val color     = paramo("color").getOrElse("GRAY")
     val text      = paramo("text").getOrElse("placeholder")
     val textcolor = paramo("textcolor").getOrElse("WHITE")
-    val shape = new Circle(color, text, textcolor, radius)
+    val shape     = new Circle(color, text, textcolor, radius)
 
     val render = Future { Renderer.renderCircle(shape) }
     render.onSuccess {
