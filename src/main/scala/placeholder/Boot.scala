@@ -87,6 +87,7 @@ class RectangleActor extends ShapeActor {
   }
 }
 
+@First
 @GET("circle/:radius")
 @Swagger(
   "Generate circle image",
@@ -166,6 +167,7 @@ class RectangleFuture extends ActionActor with ExContext {
   }
 }
 
+@First
 @GET("future/circle/:radius")
 class CircleFuture extends ActionActor with ExContext {
   override def execute() {
