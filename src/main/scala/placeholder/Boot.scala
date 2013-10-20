@@ -88,6 +88,7 @@ class RectangleActor extends ShapeActor with RenderOptions {
   }
 }
 
+@First
 @GET("circle/:radius")
 @Swagger(
   Swagger.Summary("Generate circle image"),
