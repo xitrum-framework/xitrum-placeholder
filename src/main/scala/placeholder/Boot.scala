@@ -1,16 +1,21 @@
 package placeholder
 
 import scala.util.Properties
+import scala.collection.JavaConversions._
 
 import org.jboss.netty.handler.codec.http.HttpHeaders
 import akka.actor.{Actor, ActorSystem, Props}
-
-import scala.collection.JavaConversions._
 
 import xitrum.{Action, ActionActor, Server}
 import xitrum.annotation.{First, GET, Swagger}
 
 import placeholder.model._
+
+//-----------------------------------------------------------------------------
+// Future version
+
+import scala.concurrent.{Future, ExecutionContext}
+import xitrum.annotation.CacheActionDay
 
 object Boot {
   def main(args: Array[String]) {
@@ -21,6 +26,7 @@ object Boot {
 }
 
 @GET("")
+@CacheActionDay(30)
 class SiteIndex extends ActionActor {
   def execute() {
     respondView()
@@ -38,7 +44,7 @@ trait ShapeActor extends ActionActor {
         render(bytes)
 
       case x =>
-        logger.error("SquareActor:Unexpected message: " + x)
+        log.error("SquareActor:Unexpected message: " + x)
     }
   }
 
@@ -61,6 +67,7 @@ trait RenderOptions extends Action {
 }
 
 @GET(":width")
+@CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate square image"),
   Swagger.IntPath("width")
@@ -74,6 +81,7 @@ class SquareActor extends ShapeActor with RenderOptions {
 }
 
 @GET(":width/:height")
+@CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate rectangle image"),
   Swagger.IntPath("width"),
@@ -90,6 +98,7 @@ class RectangleActor extends ShapeActor with RenderOptions {
 
 @First
 @GET("circle/:radius")
+@CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate circle image"),
   Swagger.IntPath("radius")
@@ -102,11 +111,6 @@ class CircleActor extends ShapeActor with RenderOptions {
   }
 }
 
-//-----------------------------------------------------------------------------
-// Future version
-
-import scala.concurrent.{Future, ExecutionContext}
-
 trait ExContext {
   import java.util.concurrent.Executors
   import scala.collection.parallel
@@ -115,6 +119,7 @@ trait ExContext {
 
 @First
 @GET("future/:width")
+@CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate square image"),
   Swagger.IntPath("width")
@@ -140,6 +145,7 @@ class SquareFuture extends ActionActor with RenderOptions with ExContext {
 }
 
 @GET("future/:width/:height")
+@CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate rectangle image"),
   Swagger.IntPath("width"),
@@ -167,6 +173,7 @@ class RectangleFuture extends ActionActor with RenderOptions with ExContext {
 }
 
 @GET("future/circle/:radius")
+@CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate circle image"),
   Swagger.IntPath("radius")
