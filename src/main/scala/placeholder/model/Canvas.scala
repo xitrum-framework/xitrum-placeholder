@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import javax.imageio.ImageIO
 import akka.actor.{Actor, ActorRef, Props}
-import xitrum.{Config, Logger}
+import xitrum.{Config, Log}
 
 object Renderer {
   def renderSquare(square: Square): Array[Byte] = {
@@ -125,7 +125,7 @@ object Canvas {
   }
 }
 
-class CanvasActor extends Actor with Logger {
+class CanvasActor extends Actor with Log {
   def receive = {
     case rectangle: Rectangle =>
       val bytes = Renderer.renderRectangle(rectangle)
@@ -140,6 +140,6 @@ class CanvasActor extends Actor with Logger {
       sender ! bytes
 
     case _ =>
-      logger.error("CanvasActor:Unexpected message")
+      log.error("CanvasActor:Unexpected message")
   }
 }
