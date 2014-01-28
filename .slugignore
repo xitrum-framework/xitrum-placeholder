@@ -1,1 +1,7 @@
 sbt/sbt-launch-0.12.4.jar
+project/project
+project/target
+README.md
+src/test
+target
+log
