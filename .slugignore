@@ -5,3 +5,9 @@ README.md
 src/test
 target
 log
+
+#deps
+.ivy2/
+cache/
+.sbt_home/
+.sbt_home/.ivy2/
