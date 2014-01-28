@@ -3,10 +3,10 @@ package placeholder
 import scala.util.Properties
 import scala.collection.JavaConversions._
 
-import org.jboss.netty.handler.codec.http.HttpHeaders
+import io.netty.handler.codec.http.HttpHeaders
 import akka.actor.{Actor, ActorSystem, Props}
 
-import xitrum.{Action, ActionActor, Server}
+import xitrum.{Action, ActorAction, FutureAction, Server}
 import xitrum.annotation.{First, GET, Swagger}
 
 import placeholder.model._
@@ -27,7 +27,7 @@ object Boot {
 
 @GET("")
 @CacheActionDay(30)
-class SiteIndex extends ActionActor {
+class SiteIndex extends ActorAction {
   def execute() {
     respondView()
   }
@@ -35,7 +35,7 @@ class SiteIndex extends ActionActor {
 
 //------------------------------------------------------------------------------
 
-trait ShapeActor extends ActionActor {
+trait ShapeActor extends ActorAction {
   def send(shape: Shape) {
     val actorRef = Canvas.getActorRef
     actorRef ! shape
@@ -49,8 +49,8 @@ trait ShapeActor extends ActionActor {
   }
 
   def render(bytes: Array[Byte]) {
-    response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
-    response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
+    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
+    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
     respondBinary(bytes)
   }
 }
@@ -69,7 +69,7 @@ trait RenderOptions extends Action {
 @GET(":width")
 @CacheActionDay(30)
 @Swagger(
-  Swagger.Summary("Generate square image"),
+  Swagger.Summary("Generate square image with Actor"),
   Swagger.IntPath("width")
 )
 class SquareActor extends ShapeActor with RenderOptions {
@@ -83,7 +83,7 @@ class SquareActor extends ShapeActor with RenderOptions {
 @GET(":width/:height")
 @CacheActionDay(30)
 @Swagger(
-  Swagger.Summary("Generate rectangle image"),
+  Swagger.Summary("Generate rectangle image with Actor"),
   Swagger.IntPath("width"),
   Swagger.IntPath("height")
 )
@@ -100,7 +100,7 @@ class RectangleActor extends ShapeActor with RenderOptions {
 @GET("circle/:radius")
 @CacheActionDay(30)
 @Swagger(
-  Swagger.Summary("Generate circle image"),
+  Swagger.Summary("Generate circle image with Actor"),
   Swagger.IntPath("radius")
 )
 class CircleActor extends ShapeActor with RenderOptions {
@@ -121,10 +121,10 @@ trait ExContext {
 @GET("future/:width")
 @CacheActionDay(30)
 @Swagger(
-  Swagger.Summary("Generate square image"),
+  Swagger.Summary("Generate square image with Future"),
   Swagger.IntPath("width")
 )
-class SquareFuture extends ActionActor with RenderOptions with ExContext {
+class SquareFuture extends Action with RenderOptions with ExContext {
   def execute() {
     val width = param[Int]("width")
     val shape = new Square(color, text, textcolor, width)
@@ -132,13 +132,8 @@ class SquareFuture extends ActionActor with RenderOptions with ExContext {
     val render = Future { Renderer.renderSquare(shape) }
     render.onSuccess {
       case result: Array[Byte] =>
-        self ! result
-    }
-
-    context.become {
-      case result: Array[Byte] =>
-        response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
-        response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, result.length)
+        HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
+        HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, result.length)
         respondBinary(result)
     }
   }
@@ -147,11 +142,11 @@ class SquareFuture extends ActionActor with RenderOptions with ExContext {
 @GET("future/:width/:height")
 @CacheActionDay(30)
 @Swagger(
-  Swagger.Summary("Generate rectangle image"),
+  Swagger.Summary("Generate rectangle image with Future"),
   Swagger.IntPath("width"),
   Swagger.IntPath("height")
 )
-class RectangleFuture extends ActionActor with RenderOptions with ExContext {
+class RectangleFuture extends Action with RenderOptions with ExContext {
   override def execute() {
     val width  = param[Int]("width")
     val height = param[Int]("height")
@@ -160,13 +155,8 @@ class RectangleFuture extends ActionActor with RenderOptions with ExContext {
     val render = Future { Renderer.renderRectangle(shape) }
     render.onSuccess {
       case result: Array[Byte] =>
-        self ! result
-    }
-
-    context.become {
-      case result: Array[Byte] =>
-        response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
-        response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, result.length)
+        HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
+        HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, result.length)
         respondBinary(result)
     }
   }
@@ -175,10 +165,10 @@ class RectangleFuture extends ActionActor with RenderOptions with ExContext {
 @GET("future/circle/:radius")
 @CacheActionDay(30)
 @Swagger(
-  Swagger.Summary("Generate circle image"),
+  Swagger.Summary("Generate circle image with Future"),
   Swagger.IntPath("radius")
 )
-class CircleFuture extends ActionActor with RenderOptions with ExContext {
+class CircleFuture extends Action with RenderOptions with ExContext {
   override def execute() {
     val radius = param[Int]("radius")
     val shape  = new Circle(color, text, textcolor, radius)
@@ -186,14 +176,64 @@ class CircleFuture extends ActionActor with RenderOptions with ExContext {
     val render = Future { Renderer.renderCircle(shape) }
     render.onSuccess {
       case result: Array[Byte] =>
-        self ! result
-    }
-
-    context.become {
-      case result: Array[Byte] =>
-        response.setHeader(HttpHeaders.Names.CONTENT_TYPE, "image/png")
-        response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, result.length)
+        HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
+        HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, result.length)
         respondBinary(result)
     }
+  }
+}
+
+@First
+@GET("futureAction/:width")
+@CacheActionDay(30)
+@Swagger(
+  Swagger.Summary("Generate square image with xitrum's FutreAction"),
+  Swagger.IntPath("width")
+)
+class SquareFutureAction extends FutureAction with RenderOptions{
+  def execute() {
+    val width = param[Int]("width")
+    val shape = new Square(color, text, textcolor, width)
+    val bytes = Renderer.renderSquare(shape)
+    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
+    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
+    respondBinary(bytes)
+  }
+}
+
+@GET("futureAction/:width/:height")
+@CacheActionDay(30)
+@Swagger(
+  Swagger.Summary("Generate rectangle image with xitrum's FutreAction"),
+  Swagger.IntPath("width"),
+  Swagger.IntPath("height")
+)
+class RectangleFutureActor extends FutureAction with RenderOptions {
+  def execute() {
+    val width  = param[Int]("width")
+    val height = param[Int]("height")
+    val shape  = new Rectangle(color, text, textcolor, width, height)
+    val bytes = Renderer.renderRectangle(shape)
+    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
+    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
+    respondBinary(bytes)
+  }
+}
+
+@First
+@GET("futureAction/circle/:radius")
+@CacheActionDay(30)
+@Swagger(
+  Swagger.Summary("Generate circle image with xitrum's FutreAction"),
+  Swagger.IntPath("radius")
+)
+class CircleFutureActor extends FutureAction with RenderOptions {
+  def execute() {
+    val radius = param[Int]("radius")
+    val shape  = new Circle(color, text, textcolor, radius)
+    val bytes = Renderer.renderCircle(shape)
+    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
+    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
+    respondBinary(bytes)
   }
 }
