@@ -19,7 +19,7 @@ libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "2.21.3"
 
 libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
 
-libraryDependencies += "tv.cntt" %% "xitrum" % "3.3"
+libraryDependencies += "tv.cntt" %% "xitrum" % "3.4"
 
 // Xitrum uses SLF4J, an implementation of SLF4J is needed
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13"
@@ -57,7 +57,7 @@ scalacOptions += "-P:continuations:enable"
 
 // Template engine for Xitrum --------------------------------------------------
 
-libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "1.7"
+libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "1.8"
 
 // Precompile Scalate
 seq(scalateSettings:_*)
