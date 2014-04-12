@@ -76,4 +76,6 @@ unmanagedClasspath in Compile <+= (baseDirectory) map { bd => Attributed.blank(b
 // For "sbt run"
 unmanagedClasspath in Runtime <+= (baseDirectory) map { bd => Attributed.blank(bd / "config") }
 
+XitrumPackage.copy("config", "public", "script")
+
 addCommandAlias("stage", ";xitrum-package")
