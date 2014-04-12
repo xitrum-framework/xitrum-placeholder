@@ -5,3 +5,8 @@ routes.cache
 target
 upload
 *.iml
+.cache
+.classpath
+.idea
+.project
+.settings
