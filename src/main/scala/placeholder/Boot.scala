@@ -111,11 +111,11 @@ class CircleActor extends ShapeActor with RenderOptions {
   }
 }
 
-trait ExContext {
-  import java.util.concurrent.Executors
-  import scala.collection.parallel
-  implicit val ec = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(parallel.availableProcessors*2))
-}
+//trait ExContext {
+//  import java.util.concurrent.Executors
+//  import scala.collection.parallel
+//  implicit val ec = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(parallel.availableProcessors*2))
+//}
 
 @First
 @GET("future/:width")
@@ -124,7 +124,7 @@ trait ExContext {
   Swagger.Summary("Generate square image with Future"),
   Swagger.IntPath("width")
 )
-class SquareFuture extends Action with RenderOptions with ExContext {
+class SquareFuture extends Action with RenderOptions{
   def execute() {
     val width = param[Int]("width")
     val shape = new Square(color, text, textcolor, width)
@@ -146,7 +146,7 @@ class SquareFuture extends Action with RenderOptions with ExContext {
   Swagger.IntPath("width"),
   Swagger.IntPath("height")
 )
-class RectangleFuture extends Action with RenderOptions with ExContext {
+class RectangleFuture extends Action with RenderOptions {
   override def execute() {
     val width  = param[Int]("width")
     val height = param[Int]("height")
@@ -169,7 +169,7 @@ class RectangleFuture extends Action with RenderOptions with ExContext {
   Swagger.Summary("Generate circle image with Future"),
   Swagger.IntPath("radius")
 )
-class CircleFuture extends Action with RenderOptions with ExContext {
+class CircleFuture extends Action with RenderOptions {
   override def execute() {
     val radius = param[Int]("radius")
     val shape  = new Circle(color, text, textcolor, radius)
