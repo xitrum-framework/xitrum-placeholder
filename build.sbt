@@ -7,7 +7,7 @@ name         := "xitrum-placeholder"
 
 version      := "1.0-SNAPSHOT"
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.0"
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 
@@ -19,24 +19,10 @@ libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "2.21.3"
 
 libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
 
-libraryDependencies += "tv.cntt" %% "xitrum" % "3.7"
+libraryDependencies += "tv.cntt" %% "xitrum" % "3.11"
 
 // Xitrum uses SLF4J, an implementation of SLF4J is needed
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2"
-
-// By default, version 2.10.0 of the libs below is used!!! ---------------------
-
-libraryDependencies <+= scalaVersion { sv =>
-  "org.scala-lang" % "scala-compiler" % sv
-}
-
-libraryDependencies <+= scalaVersion { sv =>
-  "org.scala-lang" % "scala-reflect" % sv
-}
-
-libraryDependencies <+= scalaVersion { sv =>
-  "org.scala-lang" % "scalap" % sv
-}
 
 // xgettext i18n translation key string extractor is a compiler plugin ---------
 
@@ -46,18 +32,9 @@ addCompilerPlugin("tv.cntt" %% "xgettext" % "1.0")
 
 scalacOptions += "-P:xgettext:xitrum.I18n"
 
-// xitrum.imperatively uses Scala continuation, also a compiler plugin ---------
-
-// https://groups.google.com/forum/?fromgroups#!topic/simple-build-tool/ReZvT14noxU
-libraryDependencies <+= scalaVersion { sv =>
-  compilerPlugin("org.scala-lang.plugins" % "continuations" % sv)
-}
-
-scalacOptions += "-P:continuations:enable"
-
 // Template engine for Xitrum --------------------------------------------------
 
-libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "1.8"
+libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "1.9"
 
 // Precompile Scalate
 seq(scalateSettings:_*)
