@@ -1,7 +1,7 @@
-#[xitrum-placeholder](https://github.com/georgeOsdDev/xitrum-placeholder)
+#[xitrum-placeholder](https://github.com/xitrum-framework/xitrum-placeholder)
 
 
-###[xitrum](http://ngocdaothanh.github.io/xitrum/) implementation for [placehold.it](http://placehold.it/) running on [Heroku](http://xitrum-placeholder.herokuapp.com/)
+###[xitrum](http://xitrum-framework.github.io/xitrum/) implementation for [placehold.it](http://placehold.it/) running on [Heroku](http://xitrum-placeholder.herokuapp.com/)
 
 
 
@@ -59,7 +59,7 @@ e.g. : [http://xitrum-placeholder.herokuapp.com/100/100?color=red&text=hello&tex
 
 #Install local
 
-	git clone https://github.com/georgeOsdDev/xitrum-placeholder.git
+	git clone https://github.com/xitrum-framework/xitrum-placeholder.git
 
  	cd xitrum-placeholder.git && sbt/sbt run
 
