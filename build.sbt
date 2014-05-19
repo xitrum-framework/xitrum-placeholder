@@ -19,7 +19,7 @@ libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "2.21.3"
 
 libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
 
-libraryDependencies += "tv.cntt" %% "xitrum" % "3.11"
+libraryDependencies += "tv.cntt" %% "xitrum" % "3.12"
 
 // Xitrum uses SLF4J, an implementation of SLF4J is needed
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2"
