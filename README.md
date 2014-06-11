@@ -1,7 +1,7 @@
 #[xitrum-placeholder](https://github.com/xitrum-framework/xitrum-placeholder)
 
 
-###[xitrum](http://xitrum-framework.github.io/xitrum/) implementation for [placehold.it](http://placehold.it/) running on [Heroku](http://xitrum-placeholder.herokuapp.com/)
+###[Xitrum](http://xitrum-framework.github.io/) implementation for [placehold.it](http://placehold.it/) running on [Heroku](http://xitrum-placeholder.herokuapp.com/)
 
 
 
