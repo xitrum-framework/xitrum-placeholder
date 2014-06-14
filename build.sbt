@@ -1,6 +1,3 @@
-// Import xsbt-scalate-generator keys; this must be at top of build.sbt, or SBT will complain
-import ScalateKeys._
-
 organization := "takeharu.oshida"
 
 name         := "xitrum-placeholder"
@@ -19,10 +16,13 @@ libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "2.21.3"
 
 libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
 
-libraryDependencies += "tv.cntt" %% "xitrum" % "3.13"
+libraryDependencies += "tv.cntt" %% "xitrum" % "3.14"
 
 // Xitrum uses SLF4J, an implementation of SLF4J is needed
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2"
+
+// For writing condition in logback.xml
+libraryDependencies += "org.codehaus.janino" % "janino" % "2.6.1"
 
 // xgettext i18n translation key string extractor is a compiler plugin ---------
 
@@ -32,15 +32,15 @@ addCompilerPlugin("tv.cntt" %% "xgettext" % "1.0")
 
 scalacOptions += "-P:xgettext:xitrum.I18n"
 
-// Template engine for Xitrum --------------------------------------------------
+// Scalate template engine config for Xitrum -----------------------------------
 
-libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "1.9"
+libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "2.0"
 
-// Precompile Scalate
+// Precompile Scalate templates
 seq(scalateSettings:_*)
 
-scalateTemplateConfig in Compile := Seq(TemplateConfig(
-  file("src") / "main" / "scalate",  // See config/scalate.conf
+ScalateKeys.scalateTemplateConfig in Compile := Seq(TemplateConfig(
+  file("src") / "main" / "scalate",
   Seq(),
   Seq(Binding("helper", "xitrum.Action", true))
 ))
