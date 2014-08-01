@@ -4,7 +4,7 @@ name         := "xitrum-placeholder"
 
 version      := "1.0-SNAPSHOT"
 
-scalaVersion := "2.11.1"
+scalaVersion := "2.11.2"
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 
@@ -16,25 +16,25 @@ libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "2.21.3"
 
 libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
 
-libraryDependencies += "tv.cntt" %% "xitrum" % "3.16"
+libraryDependencies += "tv.cntt" %% "xitrum" % "3.17"
 
 // Xitrum uses SLF4J, an implementation of SLF4J is needed
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2"
 
 // For writing condition in logback.xml
-libraryDependencies += "org.codehaus.janino" % "janino" % "2.7.4"
+libraryDependencies += "org.codehaus.janino" % "janino" % "2.7.5"
 
 // xgettext i18n translation key string extractor is a compiler plugin ---------
 
 autoCompilerPlugins := true
 
-addCompilerPlugin("tv.cntt" %% "xgettext" % "1.0")
+addCompilerPlugin("tv.cntt" %% "xgettext" % "1.1")
 
 scalacOptions += "-P:xgettext:xitrum.I18n"
 
 // Scalate template engine config for Xitrum -----------------------------------
 
-libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "2.1"
+libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "2.2"
 
 // Precompile Scalate templates
 seq(scalateSettings:_*)
