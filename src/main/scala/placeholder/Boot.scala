@@ -56,6 +56,7 @@ trait ShapeActor extends ActorAction {
 }
 
 @Swagger(
+  Swagger.Produces("image/png"),
   Swagger.OptStringQuery("color",     "Default: GRAY"),
   Swagger.OptStringQuery("text",      "Default: placeholder"),
   Swagger.OptStringQuery("textcolor", "Default: WHITE")
