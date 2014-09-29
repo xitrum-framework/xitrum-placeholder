@@ -12,4 +12,4 @@ addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.6.0")
 addSbtPlugin("tv.cntt" % "xitrum-package" % "1.8")
 
 // For compiling Scalate templates in the compile phase of SBT
-addSbtPlugin("com.mojolly.scalate" % "xsbt-scalate-generator" % "0.4.2")
+addSbtPlugin("com.mojolly.scalate" % "xsbt-scalate-generator" % "0.5.0")
