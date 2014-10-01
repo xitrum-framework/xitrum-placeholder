@@ -28,7 +28,7 @@ libraryDependencies += "org.codehaus.janino" % "janino" % "2.7.5"
 
 autoCompilerPlugins := true
 
-addCompilerPlugin("tv.cntt" %% "xgettext" % "1.1")
+addCompilerPlugin("tv.cntt" %% "xgettext" % "1.2")
 
 scalacOptions += "-P:xgettext:xitrum.I18n"
 
