@@ -16,13 +16,13 @@ libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.12.0"
 
 libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
 
-libraryDependencies += "tv.cntt" %% "xitrum" % "3.19"
+libraryDependencies += "tv.cntt" %% "xitrum" % "3.20"
 
 // Xitrum uses SLF4J, an implementation of SLF4J is needed
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2"
 
 // For writing condition in logback.xml
-libraryDependencies += "org.codehaus.janino" % "janino" % "2.7.6"
+libraryDependencies += "org.codehaus.janino" % "janino" % "2.7.7"
 
 // xgettext i18n translation key string extractor is a compiler plugin ---------
 
