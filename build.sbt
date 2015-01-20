@@ -4,7 +4,7 @@ name         := "xitrum-placeholder"
 
 version      := "1.0-SNAPSHOT"
 
-scalaVersion := "2.11.4"
+scalaVersion := "2.11.5"
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 
@@ -12,11 +12,11 @@ scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 // and it takes several hours to sync from Sonatype to Maven Central
 resolvers += "SonatypeReleases" at "http://oss.sonatype.org/content/repositories/releases/"
 
-libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.12.0"
+libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.12.1"
 
 libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
 
-libraryDependencies += "tv.cntt" %% "xitrum" % "3.21"
+libraryDependencies += "tv.cntt" %% "xitrum" % "3.22"
 
 // Xitrum uses SLF4J, an implementation of SLF4J is needed
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2"
