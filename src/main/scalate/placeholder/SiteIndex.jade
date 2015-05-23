@@ -1,5 +1,16 @@
 - import placeholder._
 
+- def usage(code: String, desc: String, url: String)
+  code= code
+  p
+    span= desc
+    br
+    span e.g.:
+    a(href={url} target="_blank")= url
+    br
+    br
+    img(src={url})
+
 !!! 5
 html
   head
@@ -15,13 +26,13 @@ html
     link(type="text/css" rel="stylesheet" href={publicUrl("css/app.css")})
 
   body
-
     header
-      h2.title xitrum-placeholder
+      h2.title
+        a(href={url[SiteIndex]}) xitrum-placeholder
       p.subtitle
-        a(href='http://xitrum-framework.github.io/xitrum/') Xitrum
+        a(href="http://xitrum-framework.github.io/") Xitrum
         | implementation for
-        a(href='http://placehold.it/') placehold.it
+        a(href="http://placehold.it/") placehold.it
 
     hr
 
@@ -32,62 +43,25 @@ html
         \&lt;img src="http://xitrum-placeholder.herokuapp.com/100" /&gt;
       h2 API
       ul
+        li= usage("/:size",          "return the square image of the specified size.",              url[SquareActor]("width" -> 100))
+        li= usage("/:width/:height", "return the rectangle image of the specified width x height.", url[RectangleActor]("width" -> 200, "height" -> 100))
+        li= usage("/circle/:radius", "return the image circle of the specified radius.",            url[CircleActor]("radius" -> 100))
         li
-          code /:size
-          p
-            span return the square image of the specified size.
-            br
-            span e.g.:
-            a(href="/100" trget="_blank") /100
-            br
-            br
-            img(src='/100')
-
-        li
-          code /:width/:height
-          p
-            span return the rectangle image of the specified width * height.
-            br
-            span e.g.:
-            a(href="/200/100" trget="_blank") /200/100
-            br
-            br
-            img(src='/200/100')
-        li
-          code /circle/:radius
-          p
-            span return the image circle of the specified radius.
-            br
-            span e.g.:
-            a(href="/circle/100" trget="_blank") /circle/100
-            br
-            br
-            img(src='/circle/100')
-        li
-          code Option query
-          p
-            span customize image with query parameter.
-            br
-            span e.g.:
-            a(href="/150/100?color=black&text=xitrum&textcolor=00FF00" trget="_blank") /150/100?color=black&text=xitrum&textcolor=00FF00
-            br
-            br
-            img(src='/150/100?color=black&text=xitrum&textcolor=00FF00')
-          span Available options
+          = usage("Option query",    "customize image with query parameter.",                       url[RectangleActor]("width" -> 150, "height" -> 100, "color" -> "black", "text" -> "xitrum", "textcolor" -> "00FF00"))
+          span Available options:
           ul
             li
-              span color (rrggbb or ColorName) : see also =>
-              a(href='http://www.docjar.com/docs/api/java/awt/Color.html' trget="_blank") Color
+              span color (rrggbb or ColorName): see also
+              a(href="http://www.docjar.com/docs/api/java/awt/Color.html" target="_blank") Color
             li text (String)
             li textcolor (rrggbb or ColorName)
 
-
     footer.footer
       p
-        span &copy; 2013-
-        a(href="http://about.me/takeharu.oshida" trget="_blank") Takeharu.Oshida
+        span &copy; 2013
+        a(href="http://about.me/takeharu.oshida" target="_blank") Takeharu.Oshida
       p
         span Source code can be found on
-        a(href="https://github.com/xitrum-framework/xitrum-placeholder" target="_blank") github
+        a(href="https://github.com/xitrum-framework/xitrum-placeholder" target="_blank") GitHub
         span , licenced under
         a(href="http://opensource.org/licenses/mit-license.php" target="_blank") MIT
