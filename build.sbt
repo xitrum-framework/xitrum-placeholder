@@ -1,40 +1,36 @@
 organization := "takeharu.oshida"
-
 name         := "xitrum-placeholder"
-
 version      := "1.0-SNAPSHOT"
-
 scalaVersion := "2.11.6"
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 
-// Most Scala projects are published to Sonatype, but Sonatype is not default
-// and it takes several hours to sync from Sonatype to Maven Central
-resolvers += "SonatypeReleases" at "http://oss.sonatype.org/content/repositories/releases/"
+// Xitrum requires Java 7
+javacOptions ++= Seq("-source", "1.7", "-target", "1.7")
 
-libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.12.1"
+//------------------------------------------------------------------------------
 
-libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
-
-libraryDependencies += "tv.cntt" %% "xitrum" % "3.23"
+libraryDependencies += "tv.cntt" %% "xitrum" % "3.24.0"
 
 // Xitrum uses SLF4J, an implementation of SLF4J is needed
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3"
 
 // For writing condition in logback.xml
 libraryDependencies += "org.codehaus.janino" % "janino" % "2.7.8"
 
+libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.16.1"
+
+libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
+
 // xgettext i18n translation key string extractor is a compiler plugin ---------
 
 autoCompilerPlugins := true
-
 addCompilerPlugin("tv.cntt" %% "xgettext" % "1.3")
-
 scalacOptions += "-P:xgettext:xitrum.I18n"
 
 // Scalate template engine config for Xitrum -----------------------------------
 
-libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "2.4"
+libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "2.5"
 
 // Precompile Scalate templates
 seq(scalateSettings:_*)

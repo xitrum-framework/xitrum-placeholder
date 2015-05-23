@@ -67,7 +67,7 @@ trait RenderOptions extends Action {
   lazy val textcolor = paramo("textcolor").getOrElse("WHITE")
 }
 
-@GET(":width")
+@GET(":width<\\d+>")
 @CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate square image with Actor"),
@@ -81,7 +81,7 @@ class SquareActor extends ShapeActor with RenderOptions {
   }
 }
 
-@GET(":width/:height")
+@GET(":width<\\d+>/:height<\\d+>")
 @CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate rectangle image with Actor"),
@@ -98,7 +98,7 @@ class RectangleActor extends ShapeActor with RenderOptions {
 }
 
 @First
-@GET("circle/:radius")
+@GET("circle/:radius<\\d+>")
 @CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate circle image with Actor"),
@@ -119,7 +119,7 @@ class CircleActor extends ShapeActor with RenderOptions {
 //}
 
 @First
-@GET("future/:width")
+@GET("future/:width<\\d+>")
 @CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate square image with Future"),
@@ -140,7 +140,7 @@ class SquareFuture extends Action with RenderOptions{
   }
 }
 
-@GET("future/:width/:height")
+@GET("future/:width<\\d+>/:height<\\d+>")
 @CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate rectangle image with Future"),
@@ -163,7 +163,7 @@ class RectangleFuture extends Action with RenderOptions {
   }
 }
 
-@GET("future/circle/:radius")
+@GET("future/circle/:radius<\\d+>")
 @CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate circle image with Future"),
@@ -185,7 +185,7 @@ class CircleFuture extends Action with RenderOptions {
 }
 
 @First
-@GET("futureAction/:width")
+@GET("futureAction/:width<\\d+>")
 @CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate square image with xitrum's FutreAction"),
@@ -202,7 +202,7 @@ class SquareFutureAction extends FutureAction with RenderOptions{
   }
 }
 
-@GET("futureAction/:width/:height")
+@GET("futureAction/:width<\\d+>/:height<\\d+>")
 @CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate rectangle image with xitrum's FutreAction"),
@@ -214,7 +214,7 @@ class RectangleFutureActor extends FutureAction with RenderOptions {
     val width  = param[Int]("width")
     val height = param[Int]("height")
     val shape  = new Rectangle(color, text, textcolor, width, height)
-    val bytes = Renderer.renderRectangle(shape)
+    val bytes  = Renderer.renderRectangle(shape)
     HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
     HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
     respondBinary(bytes)
@@ -222,7 +222,7 @@ class RectangleFutureActor extends FutureAction with RenderOptions {
 }
 
 @First
-@GET("futureAction/circle/:radius")
+@GET("futureAction/circle/:radius<\\d+>")
 @CacheActionDay(30)
 @Swagger(
   Swagger.Summary("Generate circle image with xitrum's FutreAction"),
@@ -232,7 +232,7 @@ class CircleFutureActor extends FutureAction with RenderOptions {
   def execute() {
     val radius = param[Int]("radius")
     val shape  = new Circle(color, text, textcolor, radius)
-    val bytes = Renderer.renderCircle(shape)
+    val bytes  = Renderer.renderCircle(shape)
     HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
     HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
     respondBinary(bytes)

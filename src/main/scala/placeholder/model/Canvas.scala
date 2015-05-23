@@ -64,7 +64,7 @@ object Renderer {
   }
 
   def renderCircle(circle: Circle): Array[Byte] = {
-  // https://weblogs.java.net/blog/campbell/archive/2006/07/java_2d_tricker.html
+    // https://weblogs.java.net/blog/campbell/archive/2006/07/java_2d_tricker.html
     val canvas = new BufferedImage(circle.getRadius*2, circle.getRadius*2, BufferedImage.TYPE_INT_RGB)
     val g = canvas.createGraphics()
 
@@ -105,7 +105,6 @@ object Renderer {
 }
 
 object Canvas {
-
   // TODO use config file
   val actorRef1 = Config.actorSystem.actorOf(Props[CanvasActor], "canvas1")
   val actorRef2 = Config.actorSystem.actorOf(Props[CanvasActor], "canvas2")
@@ -115,12 +114,12 @@ object Canvas {
   // RoundRobin
   // http://doc.akka.io/docs/akka/2.2.1/scala/routing.html
   var index = 1;
-  def getActorRef : ActorRef = {
+  def getActorRef: ActorRef = {
     index match {
-      case 1 => index = 2;return actorRef1
-      case 2 => index = 3;return actorRef2
-      case 3 => index = 4;return actorRef3
-      case 4 => index = 1;return actorRef4
+      case 1 => index = 2; actorRef1
+      case 2 => index = 3; actorRef2
+      case 3 => index = 4; actorRef3
+      case 4 => index = 1; actorRef4
     }
   }
 }
