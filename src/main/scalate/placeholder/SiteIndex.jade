@@ -41,7 +41,12 @@ html
       p Use as placeholder inside img tag like below
       pre
         \&lt;img src="http://xitrum-placeholder.herokuapp.com/100" /&gt;
+
       h2 API
+
+      h3
+        a(href={url[xitrum.routing.SwaggerUi]}) Try Swagger UI
+
       ul
         li= usage("/:size",          "return the square image of the specified size.",              url[SquareActor]("width" -> 100))
         li= usage("/:width/:height", "return the rectangle image of the specified width x height.", url[RectangleActor]("width" -> 200, "height" -> 100))
