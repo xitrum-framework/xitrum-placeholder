@@ -3,7 +3,7 @@ package placeholder
 import scala.util.Properties
 import scala.collection.JavaConversions._
 
-import io.netty.handler.codec.http.HttpHeaders
+import io.netty.handler.codec.http.HttpHeaderNames
 import akka.actor.{Actor, ActorSystem, Props}
 
 import xitrum.{Action, ActorAction, FutureAction, Server}
@@ -49,8 +49,8 @@ trait ShapeActor extends ActorAction {
   }
 
   def render(bytes: Array[Byte]) {
-    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
-    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
+    response.headers.set(HttpHeaderNames.CONTENT_TYPE,  "image/png")
+    response.headers.set(HttpHeaderNames.CONTENT_LENGTH, bytes.length)
     respondBinary(bytes)
   }
 }
@@ -133,8 +133,8 @@ class SquareFuture extends Action with RenderOptions{
     val render = Future { Renderer.renderSquare(shape) }
     render.onSuccess {
       case result: Array[Byte] =>
-        HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
-        HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, result.length)
+        response.headers.set(HttpHeaderNames.CONTENT_TYPE,  "image/png")
+        response.headers.set(HttpHeaderNames.CONTENT_LENGTH, result.length)
         respondBinary(result)
     }
   }
@@ -156,8 +156,8 @@ class RectangleFuture extends Action with RenderOptions {
     val render = Future { Renderer.renderRectangle(shape) }
     render.onSuccess {
       case result: Array[Byte] =>
-        HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
-        HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, result.length)
+        response.headers.set(HttpHeaderNames.CONTENT_TYPE,  "image/png")
+        response.headers.set(HttpHeaderNames.CONTENT_LENGTH, result.length)
         respondBinary(result)
     }
   }
@@ -177,8 +177,8 @@ class CircleFuture extends Action with RenderOptions {
     val render = Future { Renderer.renderCircle(shape) }
     render.onSuccess {
       case result: Array[Byte] =>
-        HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
-        HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, result.length)
+        response.headers.set(HttpHeaderNames.CONTENT_TYPE,  "image/png")
+        response.headers.set(HttpHeaderNames.CONTENT_LENGTH, result.length)
         respondBinary(result)
     }
   }
@@ -196,8 +196,8 @@ class SquareFutureAction extends FutureAction with RenderOptions{
     val width = param[Int]("width")
     val shape = new Square(color, text, textcolor, width)
     val bytes = Renderer.renderSquare(shape)
-    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
-    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
+    response.headers.set(HttpHeaderNames.CONTENT_TYPE,  "image/png")
+    response.headers.set(HttpHeaderNames.CONTENT_LENGTH, bytes.length)
     respondBinary(bytes)
   }
 }
@@ -215,8 +215,8 @@ class RectangleFutureActor extends FutureAction with RenderOptions {
     val height = param[Int]("height")
     val shape  = new Rectangle(color, text, textcolor, width, height)
     val bytes  = Renderer.renderRectangle(shape)
-    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
-    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
+    response.headers.set(HttpHeaderNames.CONTENT_TYPE,  "image/png")
+    response.headers.set(HttpHeaderNames.CONTENT_LENGTH, bytes.length)
     respondBinary(bytes)
   }
 }
@@ -233,8 +233,8 @@ class CircleFutureActor extends FutureAction with RenderOptions {
     val radius = param[Int]("radius")
     val shape  = new Circle(color, text, textcolor, radius)
     val bytes  = Renderer.renderCircle(shape)
-    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_TYPE, "image/png")
-    HttpHeaders.setHeader(response, HttpHeaders.Names.CONTENT_LENGTH, bytes.length)
+    response.headers.set(HttpHeaderNames.CONTENT_TYPE,  "image/png")
+    response.headers.set(HttpHeaderNames.CONTENT_LENGTH, bytes.length)
     respondBinary(bytes)
   }
 }
