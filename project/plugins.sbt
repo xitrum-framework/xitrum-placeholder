@@ -1,8 +1,8 @@
 // Run sbt/sbt eclipse to create Eclipse project file
-addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "4.0.0")
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "5.0.1")
 
 // Run sbt/sbt xitrum-package to prepare for deploying to production environment
 addSbtPlugin("tv.cntt" % "xitrum-package" % "1.9")
 
 // For compiling Scalate templates in the compile phase of SBT
-addSbtPlugin("com.mojolly.scalate" % "xsbt-scalate-generator" % "0.5.0")
+addSbtPlugin("org.scalatra.scalate" % "sbt-scalate-precompiler" % "1.8.0.1")

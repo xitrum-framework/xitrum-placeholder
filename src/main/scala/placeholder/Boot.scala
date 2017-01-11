@@ -1,10 +1,8 @@
 package placeholder
 
 import scala.util.Properties
-import scala.collection.JavaConversions._
 
 import io.netty.handler.codec.http.HttpHeaderNames
-import akka.actor.{Actor, ActorSystem, Props}
 
 import xitrum.{Action, ActorAction, FutureAction, Server}
 import xitrum.annotation.{First, GET, Swagger}
@@ -14,7 +12,7 @@ import placeholder.model._
 //-----------------------------------------------------------------------------
 // Future version
 
-import scala.concurrent.{Future, ExecutionContext}
+import scala.concurrent.Future
 import xitrum.annotation.CacheActionDay
 
 object Boot {
@@ -62,9 +60,9 @@ trait ShapeActor extends ActorAction {
   Swagger.OptStringQuery("textcolor", "Default: WHITE")
 )
 trait RenderOptions extends Action {
-  lazy val color     = paramo("color").getOrElse("GRAY")
-  lazy val text      = paramo("text").getOrElse("placeholder")
-  lazy val textcolor = paramo("textcolor").getOrElse("WHITE")
+  lazy val color:     String = paramo("color").getOrElse("GRAY")
+  lazy val text:      String = paramo("text").getOrElse("placeholder")
+  lazy val textcolor: String = paramo("textcolor").getOrElse("WHITE")
 }
 
 @GET(":width<\\d+>")
@@ -131,8 +129,7 @@ class SquareFuture extends Action with RenderOptions{
     val shape = new Square(color, text, textcolor, width)
 
     val render = Future { Renderer.renderSquare(shape) }
-    render.onSuccess {
-      case result: Array[Byte] =>
+    render.foreach { result: Array[Byte] =>
         response.headers.set(HttpHeaderNames.CONTENT_TYPE,  "image/png")
         response.headers.set(HttpHeaderNames.CONTENT_LENGTH, result.length)
         respondBinary(result)
@@ -154,8 +151,7 @@ class RectangleFuture extends Action with RenderOptions {
     val shape  = new Rectangle(color, text, textcolor, width, height)
 
     val render = Future { Renderer.renderRectangle(shape) }
-    render.onSuccess {
-      case result: Array[Byte] =>
+    render.foreach { result: Array[Byte] =>
         response.headers.set(HttpHeaderNames.CONTENT_TYPE,  "image/png")
         response.headers.set(HttpHeaderNames.CONTENT_LENGTH, result.length)
         respondBinary(result)
@@ -175,8 +171,7 @@ class CircleFuture extends Action with RenderOptions {
     val shape  = new Circle(color, text, textcolor, radius)
 
     val render = Future { Renderer.renderCircle(shape) }
-    render.onSuccess {
-      case result: Array[Byte] =>
+    render.foreach { result: Array[Byte] =>
         response.headers.set(HttpHeaderNames.CONTENT_TYPE,  "image/png")
         response.headers.set(HttpHeaderNames.CONTENT_LENGTH, result.length)
         respondBinary(result)
