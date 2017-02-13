@@ -25,7 +25,7 @@ libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
 // xgettext i18n translation key string extractor is a compiler plugin ---------
 
 autoCompilerPlugins := true
-addCompilerPlugin("tv.cntt" %% "xgettext" % "1.5.0")
+addCompilerPlugin("tv.cntt" %% "xgettext" % "1.5.1")
 scalacOptions += "-P:xgettext:xitrum.I18n"
 
 // Scalate template engine config for Xitrum -----------------------------------
