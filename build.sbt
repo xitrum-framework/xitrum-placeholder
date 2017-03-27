@@ -10,15 +10,15 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 //------------------------------------------------------------------------------
 
-libraryDependencies += "tv.cntt" %% "xitrum" % "3.28.2"
+libraryDependencies += "tv.cntt" %% "xitrum" % "3.28.3"
 
 // Xitrum uses SLF4J, an implementation of SLF4J is needed
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.8"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.2"
 
 // For writing condition in logback.xml
-libraryDependencies += "org.codehaus.janino" % "janino" % "3.0.6"
+libraryDependencies += "org.codehaus.janino" % "janino" % "3.0.7"
 
-libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.29.0"
+libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.36.0"
 
 libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
 
@@ -30,7 +30,7 @@ scalacOptions += "-P:xgettext:xitrum.I18n"
 
 // Scalate template engine config for Xitrum -----------------------------------
 
-libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "2.7.1"
+libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "2.8.0"
 
 // Precompile Scalate templates
 Seq(scalateSettings:_*)
