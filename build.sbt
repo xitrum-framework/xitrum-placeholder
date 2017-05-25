@@ -2,7 +2,7 @@ organization := "takeharu.oshida"
 name         := "xitrum-placeholder"
 version      := "1.0-SNAPSHOT"
 
-scalaVersion := "2.12.1"
+scalaVersion := "2.12.2"
 scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 
 // Xitrum requires Java 8
@@ -10,7 +10,7 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 //------------------------------------------------------------------------------
 
-libraryDependencies += "tv.cntt" %% "xitrum" % "3.28.3"
+libraryDependencies += "tv.cntt" %% "xitrum" % "3.28.4"
 
 // Xitrum uses SLF4J, an implementation of SLF4J is needed
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.2"
@@ -18,7 +18,7 @@ libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.2"
 // For writing condition in logback.xml
 libraryDependencies += "org.codehaus.janino" % "janino" % "3.0.7"
 
-libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.36.0"
+libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.39.0"
 
 libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
 
@@ -33,7 +33,7 @@ scalacOptions += "-P:xgettext:xitrum.I18n"
 libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "2.8.0"
 
 // Precompile Scalate templates
-Seq(scalateSettings:_*)
+scalateSettings
 
 ScalateKeys.scalateTemplateConfig in Compile := Seq(TemplateConfig(
   baseDirectory.value / "src" / "main" / "scalate",
