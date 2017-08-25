@@ -20,6 +20,7 @@ object Boot {
     val port = Properties.envOrElse("PORT", "8000")
     System.setProperty("xitrum.port.http", port)
     Server.start()
+    Server.stopAtShutdown()
   }
 }
 
