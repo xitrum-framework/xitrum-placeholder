@@ -2,7 +2,7 @@ organization := "takeharu.oshida"
 name         := "xitrum-placeholder"
 version      := "1.0-SNAPSHOT"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.12.9"
 scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 
 // Xitrum requires Java 8
@@ -10,15 +10,15 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 //------------------------------------------------------------------------------
 
-libraryDependencies += "tv.cntt" %% "xitrum" % "3.28.17"
+libraryDependencies += "tv.cntt" %% "xitrum" % "3.28.18"
 
 // Xitrum uses SLF4J, an implementation of SLF4J is needed
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
 
 // For writing condition in logback.xml
-libraryDependencies += "org.codehaus.janino" % "janino" % "3.0.12"
+libraryDependencies += "org.codehaus.janino" % "janino" % "3.1.0"
 
-libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "5.1.0"
+libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "5.5.0"
 
 libraryDependencies += "com.martiansoftware" % "jsap" % "2.1"
 
