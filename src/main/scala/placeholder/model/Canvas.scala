@@ -103,10 +103,10 @@ object Renderer {
 
 object Canvas {
   // TODO use config file
-  val actorRef1: ActorRef = Config.actorSystem.actorOf(Props[CanvasActor], "canvas1")
-  val actorRef2: ActorRef = Config.actorSystem.actorOf(Props[CanvasActor], "canvas2")
-  val actorRef3: ActorRef = Config.actorSystem.actorOf(Props[CanvasActor], "canvas3")
-  val actorRef4: ActorRef = Config.actorSystem.actorOf(Props[CanvasActor], "canvas4")
+  val actorRef1: ActorRef = Config.actorSystem.actorOf(Props[CanvasActor](), "canvas1")
+  val actorRef2: ActorRef = Config.actorSystem.actorOf(Props[CanvasActor](), "canvas2")
+  val actorRef3: ActorRef = Config.actorSystem.actorOf(Props[CanvasActor](), "canvas3")
+  val actorRef4: ActorRef = Config.actorSystem.actorOf(Props[CanvasActor](), "canvas4")
 
   // RoundRobin
   // http://doc.akka.io/docs/akka/2.2.1/scala/routing.html
@@ -125,15 +125,15 @@ class CanvasActor extends Actor with Log {
   override def receive: Receive = {
     case rectangle: Rectangle =>
       val bytes = Renderer.renderRectangle(rectangle)
-      sender ! bytes
+      sender() ! bytes
 
     case square: Square =>
       val bytes = Renderer.renderSquare(square)
-      sender ! bytes
+      sender() ! bytes
 
     case circle: Circle =>
       val bytes = Renderer.renderCircle(circle)
-      sender ! bytes
+      sender() ! bytes
 
     case _ =>
       log.error("CanvasActor:Unexpected message")

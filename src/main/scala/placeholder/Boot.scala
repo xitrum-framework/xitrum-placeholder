@@ -16,7 +16,7 @@ import scala.concurrent.Future
 import xitrum.annotation.CacheActionDay
 
 object Boot {
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     val port = Properties.envOrElse("PORT", "8000")
     System.setProperty("xitrum.port.http", port)
     Server.start()
@@ -27,7 +27,7 @@ object Boot {
 @GET("")
 @CacheActionDay(30)
 class SiteIndex extends ActorAction {
-  def execute() {
+  def execute(): Unit = {
     respondView()
   }
 }
@@ -35,7 +35,7 @@ class SiteIndex extends ActorAction {
 //------------------------------------------------------------------------------
 
 trait ShapeActor extends ActorAction {
-  def send(shape: Shape) {
+  def send(shape: Shape): Unit = {
     val actorRef = Canvas.getActorRef
     actorRef ! shape
     context.become {
@@ -47,7 +47,7 @@ trait ShapeActor extends ActorAction {
     }
   }
 
-  def render(bytes: Array[Byte]) {
+  def render(bytes: Array[Byte]): Unit = {
     response.headers.set(HttpHeaderNames.CONTENT_TYPE,  "image/png")
     response.headers.set(HttpHeaderNames.CONTENT_LENGTH, bytes.length)
     respondBinary(bytes)
@@ -73,7 +73,7 @@ trait RenderOptions extends Action {
   Swagger.IntPath("width")
 )
 class SquareActor extends ShapeActor with RenderOptions {
-  def execute() {
+  def execute(): Unit = {
     val width = param[Int]("width")
     val shape = new Square(color, text, textcolor, width)
     send(shape)
@@ -88,7 +88,7 @@ class SquareActor extends ShapeActor with RenderOptions {
   Swagger.IntPath("height")
 )
 class RectangleActor extends ShapeActor with RenderOptions {
-  def execute() {
+  def execute(): Unit = {
     val width  = param[Int]("width")
     val height = param[Int]("height")
     val shape  = new Rectangle(color, text, textcolor, width, height)
@@ -104,7 +104,7 @@ class RectangleActor extends ShapeActor with RenderOptions {
   Swagger.IntPath("radius")
 )
 class CircleActor extends ShapeActor with RenderOptions {
-  def execute() {
+  def execute(): Unit = {
     val radius = param[Int]("radius")
     val shape  = new Circle(color, text, textcolor, radius)
     send(shape)
@@ -125,7 +125,7 @@ class CircleActor extends ShapeActor with RenderOptions {
   Swagger.IntPath("width")
 )
 class SquareFuture extends Action with RenderOptions{
-  def execute() {
+  def execute(): Unit = {
     val width = param[Int]("width")
     val shape = new Square(color, text, textcolor, width)
 
@@ -146,7 +146,7 @@ class SquareFuture extends Action with RenderOptions{
   Swagger.IntPath("height")
 )
 class RectangleFuture extends Action with RenderOptions {
-  override def execute() {
+  override def execute(): Unit = {
     val width  = param[Int]("width")
     val height = param[Int]("height")
     val shape  = new Rectangle(color, text, textcolor, width, height)
@@ -167,7 +167,7 @@ class RectangleFuture extends Action with RenderOptions {
   Swagger.IntPath("radius")
 )
 class CircleFuture extends Action with RenderOptions {
-  override def execute() {
+  override def execute(): Unit = {
     val radius = param[Int]("radius")
     val shape  = new Circle(color, text, textcolor, radius)
 
@@ -188,7 +188,7 @@ class CircleFuture extends Action with RenderOptions {
   Swagger.IntPath("width")
 )
 class SquareFutureAction extends FutureAction with RenderOptions{
-  def execute() {
+  def execute(): Unit = {
     val width = param[Int]("width")
     val shape = new Square(color, text, textcolor, width)
     val bytes = Renderer.renderSquare(shape)
@@ -206,7 +206,7 @@ class SquareFutureAction extends FutureAction with RenderOptions{
   Swagger.IntPath("height")
 )
 class RectangleFutureActor extends FutureAction with RenderOptions {
-  def execute() {
+  def execute(): Unit = {
     val width  = param[Int]("width")
     val height = param[Int]("height")
     val shape  = new Rectangle(color, text, textcolor, width, height)
@@ -225,7 +225,7 @@ class RectangleFutureActor extends FutureAction with RenderOptions {
   Swagger.IntPath("radius")
 )
 class CircleFutureActor extends FutureAction with RenderOptions {
-  def execute() {
+  def execute(): Unit = {
     val radius = param[Int]("radius")
     val shape  = new Circle(color, text, textcolor, radius)
     val bytes  = Renderer.renderCircle(shape)
